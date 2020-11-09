@@ -81,7 +81,7 @@ for (int i = 0; i <= 3; i++) {
 				repeatedDig = 0;
 			}
 		}
-		printf("right digits: %d on right places: %d\n", RightDigits-RightPlaces, RightPlaces);
+	printf("right digits: %d on right places: %d\n", RightDigits-RightPlaces, RightPlaces);
 BullsCows[0] = RightPlaces;
 BullsCows[1] = RightDigits-RightPlaces;
 return BullsCows;
