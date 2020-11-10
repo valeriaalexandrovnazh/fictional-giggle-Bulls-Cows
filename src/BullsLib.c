@@ -3,7 +3,7 @@
 #include <stdlib.h>  // чтобы пользоваться функцией rand
 #include <time.h>
 #include <string.h>
-
+#include <stddef.h>
 
 void ShuffleArray(int* arr, int N) //функция для перетасовки элементов массива
 {
@@ -26,35 +26,45 @@ for (int i = 0; i <= a-1; i++) {
 return madeNumber;
 }
 
-int* ReadAnswer(int* guess, char* answer){
+int* ReadAnswer(int* guess,char* answer){
 char allnum[] = "0123456789";
-
- // считываем строку
 int guess1;
+ // считываем строку
 
 
 // пока не будет считано целое число
-		while ((sscanf(answer, "%d", &guess1) != 1) || strspn(answer, allnum) != 4 || strlen(answer) != 5) {
+		//while ((sscanf(answer, "%d", &guess1) != 1) || strspn(answer, allnum) != 4 || strlen(answer) != 5) {
 			if ((sscanf(answer, "%d", &guess1) == 1) && strspn(answer, allnum) < 4 && strlen(answer) < 5) {
 				printf("Incorrect input. The number is too small. Try again: \n"); 
+				
+				//guess=(int*) calloc(1,sizeof(int));
+				guess[0]=-1;
 			}
 			else if (strlen(answer) - 1 > strspn(answer, allnum))
 			{
 				printf("Incorrect input. Input shouldn't contain letters or punctuation marks. Try again: \n");
 				
+				//guess=(int*) calloc(1,sizeof(int));
+				guess[0]=-2;
 			}
-			else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) > 4 && strlen(answer) - 1 >= strspn(answer, allnum)) {
+			else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) > 4 || strlen(answer) - 1 >= strspn(answer, allnum)) {
 				printf("Incorrect input. The number is too big. Try again: \n"); 
+				
+				//guess=(int*) calloc(1,sizeof(int));
+				guess[0]=-3;
 			}
 
 			// выводим сообщения об ошибке
-			fgets(answer, sizeof(answer), stdin); // и заново считываем строку
-		}
+			//fgets(answer, sizeof(answer), stdin); // и заново считываем строку
+		else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) == 4) {
+		guess=(int*) calloc(4,sizeof(int));
                 guess[0] = guess1 / 1000;
 		guess[1] = guess1 % 1000 / 100;
 		guess[2] = guess1 % 100 / 10;
 		guess[3] = guess1 % 10;
+}
 return guess;
+
 }
 
 int* CheckBullsCows(int *BullsCows, int* guess, int* made){

@@ -11,7 +11,7 @@ int main(void)
 	int allDigits[] = { 0,1,2,3,4,5,6,7,8,9 };//наш массив с неповторяющимися числами
 	int *madeNumber=NULL;
 	int *guess=NULL; //массив для догадки
-	int *BullsCows;
+	int *BullsCows=NULL;
         char *answer=NULL; // массив символов для ответа
 	BullsCows=(int*) calloc(2,sizeof(int));
 	madeNumber=(int*) calloc(4,sizeof(int));
@@ -23,14 +23,21 @@ int main(void)
         printf("Hello my friend. I  made a four-digit number. Can you guess it? Test your luck!\n");// выводим строку на консоль
         
  	
-	 while (BullsCows[0] < 4){ //считывыем ответы, пока пользователь не угадает
-        fgets(answer, sizeof(answer), stdin);
-	guess=ReadAnswer(guess, answer);	
+	 	while (BullsCows[0] < 4){ //считывыем ответы, пока пользователь не угадает
+       		 	
+
+			while (1){
+			fgets(answer, sizeof(answer), stdin);
+			guess=ReadAnswer(guess, answer);	
+                        for (int i=0; i<4; i++){
+			printf("%d", guess[i]);
+			}
+		        if(guess[0]!=-1&& guess[0]!=-2&&guess[0]!=-3) break;
+ 			}
+			BullsCows=CheckBullsCows(BullsCows,guess,madeNumber);
 		
-	BullsCows=CheckBullsCows(BullsCows,guess,madeNumber);
-		
-		
-	}
+		}
+	
 
 	printf("You're great!\n");
 	return 0;                   // выходим из функции
