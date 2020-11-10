@@ -20,10 +20,11 @@ int main(void)
 
 	ShuffleArray(allDigits, 10);//перемешиваем
 	madeNumber=MakeNum(allDigits, 4, madeNumber);
-        
+        printf("Hello my friend. I  made a four-digit number. Can you guess it? Test your luck!\n");// выводим строку на консоль
+        fgets(answer, sizeof(answer), stdin);
  	
 	 while (BullsCows[0] < 4){ //считывыем ответы, пока пользователь не угадает
-	guess=ReadAnswer(guess);	
+	guess=ReadAnswer(guess, answer);	
 		
 	BullsCows=CheckBullsCows(BullsCows,guess,madeNumber);
 		
