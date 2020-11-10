@@ -26,9 +26,9 @@ for (int i = 0; i <= a-1; i++) {
 return madeNumber;
 }
 
-int* ReadAnswer(int* guess){
+int* ReadAnswer(int* guess,char* answer){
 char allnum[] = "0123456789";
-char answer[256]; // массив символов для ответа
+
 printf("Hello my friend. I  made a four-digit number. Can you guess it? Test your luck!\n");// выводим строку на консоль
 fgets(answer, sizeof(answer), stdin); // считываем строку
 int guess1;

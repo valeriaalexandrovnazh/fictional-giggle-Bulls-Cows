@@ -11,10 +11,12 @@ int main(void)
 	int allDigits[] = { 0,1,2,3,4,5,6,7,8,9 };//наш массив с неповторяющимися числами
 	int *madeNumber=NULL;
 	int *guess=NULL; //массив для догадки
-	int *BullsCows=NULL;
+	int *BullsCows;
+        char *answer=NULL; // массив символов для ответа
 	BullsCows=(int*) calloc(2,sizeof(int));
 	madeNumber=(int*) calloc(4,sizeof(int));
 	guess=(int*) calloc(4,sizeof(int));
+	answer=(char*) calloc(256,sizeof(char));
 
 	ShuffleArray(allDigits, 10);//перемешиваем
 	madeNumber=MakeNum(allDigits, 4, madeNumber);

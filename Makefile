@@ -1,11 +1,7 @@
 CXX=gcc
-
 CFLAGS = -c -Wall  -std=c99
-
 FLAGS = -Wall  -std=c99
-
 OBJECTS = build/src/main.o build/src/BullsLib.o 
-
 TEST_OBJECTS = build/test/main.o build/test/tests.o build/src/BullsLib.o
 
 .PHONY: clean all bin build run
