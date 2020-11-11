@@ -31,32 +31,29 @@ char allnum[] = "0123456789";
 int guess1;
  // считываем строку
 
-
+		guess[0] = 0;
+		guess[1] = 0;
+		guess[2] = 0;
+		guess[3] = 0;
 // пока не будет считано целое число
 		//while ((sscanf(answer, "%d", &guess1) != 1) || strspn(answer, allnum) != 4 || strlen(answer) != 5) {
 			if ((sscanf(answer, "%d", &guess1) == 1) && strspn(answer, allnum) < 4 && strlen(answer) < 5) {
 				printf("Incorrect input. The number is too small. Try again: \n"); 
-				
-				//guess=(int*) calloc(1,sizeof(int));
 				guess[0]=-1;
 			}
 			else if (strlen(answer) - 1 > strspn(answer, allnum))
 			{
 				printf("Incorrect input. Input shouldn't contain letters or punctuation marks. Try again: \n");
-				
-				//guess=(int*) calloc(1,sizeof(int));
 				guess[0]=-2;
 			}
-			else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) > 4 || strlen(answer) - 1 >= strspn(answer, allnum)) {
+			else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) > 4 && strlen(answer) > 5) {
 				printf("Incorrect input. The number is too big. Try again: \n"); 
-				
-				//guess=(int*) calloc(1,sizeof(int));
 				guess[0]=-3;
 			}
 
 			// выводим сообщения об ошибке
 			//fgets(answer, sizeof(answer), stdin); // и заново считываем строку
-		else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) == 4) {
+		else if ((sscanf(answer, "%d", &guess1)) == 1 && strspn(answer, allnum) == 4 && strlen(answer) == 5) {
 		guess=(int*) calloc(4,sizeof(int));
                 guess[0] = guess1 / 1000;
 		guess[1] = guess1 % 1000 / 100;

@@ -32,6 +32,7 @@ int main(void)
                         for (int i=0; i<4; i++){
 			printf("%d", guess[i]);
 			}
+			printf("\n");
 		        if(guess[0]!=-1&& guess[0]!=-2&&guess[0]!=-3) break;
  			}
 			BullsCows=CheckBullsCows(BullsCows,guess,madeNumber);
