@@ -5,6 +5,11 @@
 #include <string.h>
 #include <stddef.h>
 
+typedef struct{
+	char name[10];
+	int steps;
+}WinnerL;
+
 void ShuffleArray(int* arr, int N) //функция для перетасовки элементов массива
 {
 	srand(time(NULL)); // инициализация генератора случайных чисел
@@ -87,9 +92,79 @@ for (int i = 0; i <= 3; i++) {
 				repeatedDig = 0;
 			}
 		}
-	printf("right digits: %d on right places: %d\n", RightDigits-RightPlaces, RightPlaces);
+	printf("Cows: %d Bulls: %d\n", RightDigits-RightPlaces, RightPlaces);
 BullsCows[0] = RightPlaces;
 BullsCows[1] = RightDigits-RightPlaces;
 return BullsCows;
 }
+int load(WinnerL *winner,WinnerL *sortlist)
+{
+   	FILE *winlist = NULL; 
+   	winlist = fopen("Winlist.txt", "r");
+    	int i=0;
+    	if (winlist == NULL)
+    {
+        printf("Error while opening file\n");
+        return 1;
+    }
+   
+   while(!feof(winlist)){
+		fscanf(winlist,"%s %i", &sortlist[i].name, &sortlist[i].steps);
+		if (sortlist[i].name == NULL || sortlist[i].steps == NULL ){
+                //printf("i=%d\n", i);
+		break;
+		}
+		i++;
+	
+		if (i==9){
+                //printf("i=%d\n", i);
+		break;
+		}
+	}
+    sortlist[i]=*winner;
+    //printf("winner i=%d\n", i);
+    //printf("\n%d people from  the file read\n\n", i);
+    //for (int k = 0; k<i+1; k++)
+    //{
+    //    printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
+   // }
+    //free(sortlist);
+  
+    fclose(winlist);   
+return i+1;
+}
 
+void sort(WinnerL *sortlist, int n)
+{
+   WinnerL tmplist;
+ 
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            
+            if (sortlist[j].steps > sortlist[j+1].steps)
+            {
+                tmplist = sortlist[j];
+                sortlist[j] = sortlist[j+1];
+                sortlist[j+1] = tmplist;
+            }
+        }
+    }
+}
+int save(WinnerL * sortlist,int  n )
+{
+    FILE * winlist;   
+    if ((winlist = fopen("Winlist.txt", "w")) == NULL)
+    {
+        printf("Error occured while opening file\n");
+        return 1;
+    }
+    for (int k = 0; k<n; k++){   	
+	fprintf(winlist, "%s \n", sortlist[k].name);
+	fprintf(winlist, "%i \n", sortlist[k].steps);
+	printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
+   }
+    fclose(winlist);
+    return 0;
+}
