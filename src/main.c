@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "BullsLib.h"
 int load(WinnerL *winner,WinnerL *sortlist);
-int save(WinnerL *sortlist);
+int save(WinnerL *sortlist, int n);
 int main(void)                  
 {                               
 	
@@ -51,9 +51,10 @@ int main(void)
 
         printf("Enter your name to know your score!\n");
 	fgets(winner->name, sizeof(winner->name), stdin);
-	//return 0;                   // выходим из функции
-load(winner, sortlist);
-save(sortlist);
+	
+int n=load(winner, sortlist);
+save(sortlist,n);
+free(sortlist);
 }
 // загрузка из файла массива структур
 int load(WinnerL *winner,WinnerL *sortlist)
@@ -73,27 +74,34 @@ int load(WinnerL *winner,WinnerL *sortlist)
         printf("Error while opening file\n");
         return 1;
     }
-    // считываем количество структур
    
    while(!feof(winlist)){
 		fscanf(winlist,"%s %i", &sortlist[i].name, &sortlist[i].steps);
-		if (sortlist[i].name == "0" ) break;
+		if (sortlist[i].name == NULL || sortlist[i].steps == NULL ){
+                printf("i=%d\n", i);
+		break;
+		}
 		i++;
-		if (i==9) break;
+	
+		if (i==9){
+                printf("i=%d\n", i);
+		break;
+		}
 	}
     sortlist[i]=*winner;
+    printf("winner i=%d\n", i);
     printf("\n%d people from  the file read\n\n", i);
-    for (int k = 0; k<i; k++)
+    for (int k = 0; k<i+1; k++)
     {
         printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
     }
-    free(sortlist);
-    free(sortnum);
+    //free(sortlist);
+  
     fclose(winlist);   
-return 0;
+return i+1;
 }
 
-int save(WinnerL * sortlist)
+int save(WinnerL * sortlist,int  n )
 {
     FILE * winlist;   
     if ((winlist = fopen("Winlist.txt", "w")) == NULL)
@@ -101,7 +109,7 @@ int save(WinnerL * sortlist)
         printf("Error occured while opening file\n");
         return 1;
     }
-    for (int k = 0; k<11; k++){   	
+    for (int k = 0; k<n; k++){   	
 	fprintf(winlist, "%s \n", sortlist[k].name);
 	fprintf(winlist, "%i \n", sortlist[k].steps);
 	printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
