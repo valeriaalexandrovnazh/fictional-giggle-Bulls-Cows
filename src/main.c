@@ -4,7 +4,8 @@
 #include <time.h>
 #include <stddef.h>
 #include "BullsLib.h"
-
+int load(WinnerL *winner,WinnerL *sortlist);
+int save(WinnerL *sortlist);
 int main(void)                  
 {                               
 	
@@ -13,11 +14,14 @@ int main(void)
 	int *guess=NULL; //массив для догадки
 	int *BullsCows=NULL;
         char *answer=NULL; // массив символов для ответа
+	int try = 0;
+	 WinnerL * sortlist = (WinnerL *) malloc((11) * sizeof(WinnerL));
+
 	BullsCows=(int*) calloc(2,sizeof(int));
 	madeNumber=(int*) calloc(4,sizeof(int));
 	guess=(int*) calloc(4,sizeof(int));
 	answer=(char*) calloc(256,sizeof(char));
-
+	WinnerL *winner= malloc (sizeof(WinnerL));
 	ShuffleArray(allDigits, 10);//перемешиваем
 	madeNumber=MakeNum(allDigits, 4, madeNumber);
         printf("Hello my friend. I  made a four-digit number. Can you guess it? Test your luck!\n");// выводим строку на консоль
@@ -33,13 +37,75 @@ int main(void)
 			printf("%d", guess[i]);
 			}
 			printf("\n");
+
 		        if(guess[0]!=-1&& guess[0]!=-2&&guess[0]!=-3) break;
  			}
+			try++;
 			BullsCows=CheckBullsCows(BullsCows,guess,madeNumber);
 		
 		}
 	
 
-	printf("You're great!\n");
-	return 0;                   // выходим из функции
+	printf("You're great! %i\n", try);
+	winner->steps = try;
+
+        printf("Enter your name to know your score!\n");
+	fgets(winner->name, sizeof(winner->name), stdin);
+	//return 0;                   // выходим из функции
+load(winner, sortlist);
+save(sortlist);
+}
+// загрузка из файла массива структур
+int load(WinnerL *winner,WinnerL *sortlist)
+{
+   FILE *winlist = NULL;
+      
+   winlist = fopen("Winlist.txt", "r");
+  
+    int m = sizeof(int);
+    int i=0;
+ 
+    // выделяем память для количества данных
+    int *sortnum = (int *)malloc(m);
+    
+    if (winlist == NULL)
+    {
+        printf("Error while opening file\n");
+        return 1;
+    }
+    // считываем количество структур
+   
+   while(!feof(winlist)){
+		fscanf(winlist,"%s %i", &sortlist[i].name, &sortlist[i].steps);
+		if (sortlist[i].name == "0" ) break;
+		i++;
+		if (i==9) break;
+	}
+    sortlist[i]=*winner;
+    printf("\n%d people from  the file read\n\n", i);
+    for (int k = 0; k<i; k++)
+    {
+        printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
+    }
+    free(sortlist);
+    free(sortnum);
+    fclose(winlist);   
+return 0;
+}
+
+int save(WinnerL * sortlist)
+{
+    FILE * winlist;   
+    if ((winlist = fopen("Winlist.txt", "w")) == NULL)
+    {
+        printf("Error occured while opening file\n");
+        return 1;
+    }
+    for (int k = 0; k<11; k++){   	
+	fprintf(winlist, "%s \n", sortlist[k].name);
+	fprintf(winlist, "%i \n", sortlist[k].steps);
+	printf("%i %s %i \n", k + 1, sortlist[k].name, sortlist[k].steps);
+   }
+    fclose(winlist);
+    return 0;
 }
