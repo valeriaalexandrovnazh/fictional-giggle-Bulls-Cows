@@ -55,6 +55,7 @@ int n=load(winner, sortlist);
 sort(sortlist,n);
 save(sortlist,n);
 free(sortlist);
+return 0;
 }
 
 
